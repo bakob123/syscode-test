@@ -2,6 +2,7 @@ package com.syscode.studentserviceapplication.student.controllers;
 
 import com.syscode.studentserviceapplication.student.models.dtos.StudentDTO;
 import com.syscode.studentserviceapplication.student.models.dtos.StudentListDTO;
+import com.syscode.studentserviceapplication.student.models.dtos.StudentModificationDTO;
 import com.syscode.studentserviceapplication.student.services.StudentService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,11 @@ public class StudentController {
   @PostMapping
   public ResponseEntity<StudentDTO> createStudent(@RequestBody @Valid StudentDTO studentDTO) { //TODO: test
     return ResponseEntity.status(HttpStatus.CREATED).body(studentService.addStudent(studentDTO));
+  }
+
+  @PutMapping("/{id}")
+  public ResponseEntity<?> updateStudent(@PathVariable String id, @RequestBody @Valid StudentDTO studentDTO) {
+    return ResponseEntity.status(HttpStatus.OK).body(studentService.updateStudentData(id, studentDTO));
   }
 
 }
