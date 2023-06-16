@@ -1,10 +1,11 @@
-package com.syscode.student.models;
+package com.syscode.student.models.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.util.UUID;
 
@@ -25,7 +26,12 @@ public class Student {
   @Column(length = 100, unique = true)
   private String email;
 
+  public Student() {
+    this.id = UUID.randomUUID();
+  }
+
   public Student(String name, String email) {
+    this();
     this.name = name;
     this.email = email;
   }
