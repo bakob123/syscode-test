@@ -24,6 +24,12 @@ public class StudentServiceImpl implements StudentService {
     return new StudentListDTO(studentDTOS);
   }
 
+  @Override
+  public StudentDTO addStudent(StudentDTO studentDTO) { //TODO: test
+    Student student = studentRepository.save(convertToStudent(studentDTO));
+    return convertToStudentDTO(student);
+  }
+
   private StudentDTO convertToStudentDTO(Student student) {
     return new StudentDTO
         (
@@ -31,6 +37,10 @@ public class StudentServiceImpl implements StudentService {
             student.getName(),
             student.getEmail()
         );
+  }
+
+  private Student convertToStudent(StudentDTO studentDTO) {
+    return new Student(studentDTO.getName(), studentDTO.getEmail());
   }
 
 }
