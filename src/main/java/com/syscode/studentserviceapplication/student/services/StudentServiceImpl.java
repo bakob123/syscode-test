@@ -28,6 +28,11 @@ public class StudentServiceImpl implements StudentService {
   }
 
   @Override
+  public Student getById(String id) throws StudentNotFoundException {
+    return studentRepository.findById(UUID.fromString(id)).orElseThrow(StudentNotFoundException::new);
+  }
+
+  @Override
   public StudentDTO addStudent(StudentDTO studentDTO) throws AlreadyTakenException { //TODO: test
     isExistingEmail(studentDTO.getEmail());
     Student student = studentRepository.save(convertToStudent(studentDTO));
@@ -45,11 +50,18 @@ public class StudentServiceImpl implements StudentService {
   @Override //TODO: test
   public StudentDTO updateStudentData(String id,
                                       StudentDTO studentDTO) throws StudentNotFoundException, AlreadyTakenException {
-    Student student = studentRepository.findById(UUID.fromString(id)).orElseThrow(StudentNotFoundException::new);
+    Student student = getById(id);
     isExistingEmail(studentDTO.getEmail());
     student.setName(studentDTO.getName());
     student.setEmail(studentDTO.getEmail());
     return convertToStudentDTO(studentRepository.save(student));
+  }
+
+  @Override //TODO: test
+  public Student deleteStudent(String id) throws StudentNotFoundException {
+    Student student = getById(id);
+    studentRepository.delete(student);
+    return student;
   }
 
   private StudentDTO convertToStudentDTO(Student student) {

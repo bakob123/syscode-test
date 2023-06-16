@@ -1,6 +1,7 @@
 package com.syscode.studentserviceapplication.errorhandling;
 
 import com.syscode.studentserviceapplication.errorhandling.exceptions.AlreadyTakenException;
+import com.syscode.studentserviceapplication.errorhandling.exceptions.StudentNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -43,6 +44,11 @@ public class RestControllerExceptionHandler {
   @ExceptionHandler(AlreadyTakenException.class)
   public ResponseEntity<ErrorMessage> handleAlreadyTakenException(AlreadyTakenException e) {
     return ResponseEntity.status(HttpStatus.CONFLICT).body(new ErrorMessage(e.getMessage()));
+  }
+
+  @ExceptionHandler(StudentNotFoundException.class)
+  public ResponseEntity<ErrorMessage> handleStudentNotFound() {
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorMessage(StudentNotFoundException.MESSAGE));
   }
 
   public String getMissingFieldsMessage(List<FieldError> fieldErrors) {
