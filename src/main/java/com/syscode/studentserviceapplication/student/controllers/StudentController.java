@@ -4,6 +4,8 @@ import com.syscode.studentserviceapplication.student.models.dtos.StudentDTO;
 import com.syscode.studentserviceapplication.student.models.dtos.StudentListDTO;
 import com.syscode.studentserviceapplication.student.services.StudentService;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,26 +17,48 @@ import javax.validation.Valid;
 @RequestMapping("/api/students")
 public class StudentController {
 
+  private static final Logger logger = LoggerFactory.getLogger(StudentController.class);
+  private static final String requestBaseMessage = "Request received to ";
   private StudentService studentService;
 
   @GetMapping
   public ResponseEntity<StudentListDTO> getAllStudents() { //TODO: test
-    return ResponseEntity.status(HttpStatus.OK).body(studentService.getAll());
+    logger.info(requestBaseMessage + "retrieve all students.");
+    StudentListDTO studentListDTO = studentService.getAll();
+    logger.info("Returned {} students.", studentListDTO.getStudents().size());
+    return ResponseEntity.status(HttpStatus.OK).body(studentListDTO);
   }
 
   @PostMapping
   public ResponseEntity<StudentDTO> createStudent(@RequestBody @Valid StudentDTO studentDTO) { //TODO: test
-    return ResponseEntity.status(HttpStatus.CREATED).body(studentService.addStudent(studentDTO));
+    logger.info
+        (
+            requestBaseMessage + "create student: name={}, email={}", studentDTO.getName(), studentDTO.getEmail()
+        );
+    StudentDTO createdStudent = studentService.addStudent(studentDTO);
+    logger.info("Student created with id={}", createdStudent.getId());
+    return ResponseEntity.status(HttpStatus.CREATED).body(createdStudent);
   }
 
   @PutMapping("/{id}")
   public ResponseEntity<StudentDTO> updateStudent(@PathVariable String id, @RequestBody @Valid StudentDTO studentDTO) { //TODO: test
-    return ResponseEntity.status(HttpStatus.OK).body(studentService.updateStudentData(id, studentDTO));
+    logger.info
+        (
+            requestBaseMessage + "update id={} student with new_name={}, new_email={}.",
+            id,
+            studentDTO.getName(),
+            studentDTO.getEmail()
+        );
+    StudentDTO updatedStudentDTO = studentService.updateStudentData(id, studentDTO);
+    logger.info("Updated id={} student. Name={}, email={}.", id, studentDTO.getName(), studentDTO.getEmail());
+    return ResponseEntity.status(HttpStatus.OK).body(updatedStudentDTO);
   }
 
   @DeleteMapping("/{id}")
   public ResponseEntity deleteStudent(@PathVariable String id) { //TODO: test
+    logger.info(requestBaseMessage + "delete student with id={}", id);
     studentService.deleteStudent(id);
+    logger.info("Deleted student with id={}", id);
     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
 
