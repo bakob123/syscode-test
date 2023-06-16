@@ -1,4 +1,4 @@
-package com.syscode.student.models.dtos;
+package com.syscode.studentserviceapplication.student.models.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

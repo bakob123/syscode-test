@@ -1,8 +1,8 @@
-package com.syscode.student.controllers;
+package com.syscode.studentserviceapplication.student.controllers;
 
-import com.syscode.student.models.dtos.StudentDTO;
-import com.syscode.student.models.dtos.StudentListDTO;
-import com.syscode.student.services.StudentService;
+import com.syscode.studentserviceapplication.student.models.dtos.StudentDTO;
+import com.syscode.studentserviceapplication.student.models.dtos.StudentListDTO;
+import com.syscode.studentserviceapplication.student.services.StudentService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
