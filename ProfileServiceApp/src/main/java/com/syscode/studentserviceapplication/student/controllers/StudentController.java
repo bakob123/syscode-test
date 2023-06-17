@@ -1,11 +1,13 @@
 package com.syscode.studentserviceapplication.student.controllers;
 
+import com.syscode.studentserviceapplication.student.models.dtos.AddressResponseDTO;
 import com.syscode.studentserviceapplication.student.models.dtos.StudentDTO;
 import com.syscode.studentserviceapplication.student.models.dtos.StudentListDTO;
 import com.syscode.studentserviceapplication.student.services.StudentService;
-import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,12 +15,14 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@AllArgsConstructor
 @RequestMapping("/api/students")
 public class StudentController {
 
   private static final Logger logger = LoggerFactory.getLogger(StudentController.class);
   private static final String requestBaseMessage = "Request received to ";
+  @Value("${addressservice.base.url}")
+  private String addressServiceBaseUrl;
+  @Autowired
   private StudentService studentService;
 
   @GetMapping
@@ -60,6 +64,15 @@ public class StudentController {
     studentService.deleteStudent(id);
     logger.info("Deleted student with id={}", id);
     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+  }
+
+  @GetMapping("/addresses/{id}") //TODO: test
+  public ResponseEntity<AddressResponseDTO> getAddress(@PathVariable String id) {
+    logger.info(requestBaseMessage + "get address for student with id={}", id);
+    logger.info("Sending request to {} ", addressServiceBaseUrl + "/" + id);
+    AddressResponseDTO addressResponseDTO = studentService.getAddressById(id);
+    logger.info("Returning AddressResponseDTO: id={}, address={}", id, addressResponseDTO.getAddress());
+    return ResponseEntity.status(HttpStatus.OK).body(addressResponseDTO);
   }
 
 }

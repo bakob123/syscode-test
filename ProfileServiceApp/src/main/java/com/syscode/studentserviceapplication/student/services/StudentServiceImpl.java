@@ -2,22 +2,29 @@ package com.syscode.studentserviceapplication.student.services;
 
 import com.syscode.studentserviceapplication.errorhandling.exceptions.AlreadyTakenException;
 import com.syscode.studentserviceapplication.errorhandling.exceptions.StudentNotFoundException;
+import com.syscode.studentserviceapplication.student.models.dtos.AddressResponseDTO;
 import com.syscode.studentserviceapplication.student.models.dtos.StudentDTO;
 import com.syscode.studentserviceapplication.student.models.dtos.StudentListDTO;
 import com.syscode.studentserviceapplication.student.models.entities.Student;
 import com.syscode.studentserviceapplication.student.repositories.StudentRepository;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
 public class StudentServiceImpl implements StudentService {
 
+  @Autowired
   private StudentRepository studentRepository;
+  @Value("${addressservice.base.url}")
+  private String addressServiceBaseUrl;
+  @Autowired
+  private RestTemplate restTemplate;
 
   @Override //TODO: test
   public StudentListDTO getAll() {
@@ -62,6 +69,11 @@ public class StudentServiceImpl implements StudentService {
     Student student = getById(id);
     studentRepository.delete(student);
     return student;
+  }
+
+  @Override
+  public AddressResponseDTO getAddressById(String id) { //TODO: test
+    return restTemplate.getForObject(addressServiceBaseUrl+ "/{id}", AddressResponseDTO.class, id);
   }
 
   private StudentDTO convertToStudentDTO(Student student) {
