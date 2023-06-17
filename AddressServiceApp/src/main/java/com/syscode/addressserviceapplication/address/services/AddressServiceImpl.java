@@ -7,7 +7,8 @@ import org.springframework.stereotype.Service;
 public class AddressServiceImpl implements AddressService {
 
   @Override
-  public Address getAddress(String id, String address) {//TODO: test
+  public Address getAddress(String id, String address) {
+    address = address.trim();
     return new Address(id, address);
   }
 

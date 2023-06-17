@@ -18,7 +18,7 @@ public class RestControllerExceptionHandler {
 
   @ExceptionHandler(JwtException.class)
   public ResponseEntity<ErrorMessage> handleJwtExceptions(JwtException e) {
-    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorMessage(e.getMessage()));
+    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ErrorMessage(e.getMessage()));
   }
 
   @ExceptionHandler(MissingRequestHeaderException.class)

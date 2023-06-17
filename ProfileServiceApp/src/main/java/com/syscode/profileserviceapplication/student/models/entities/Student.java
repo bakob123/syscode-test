@@ -1,6 +1,7 @@
 package com.syscode.profileserviceapplication.student.models.entities;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,6 +13,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @AllArgsConstructor
+@EqualsAndHashCode
 @Table(name = "students")
 public class Student {
 

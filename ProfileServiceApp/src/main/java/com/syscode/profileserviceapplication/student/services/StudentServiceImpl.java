@@ -33,7 +33,7 @@ public class StudentServiceImpl implements StudentService {
   @Autowired
   private JwtTokenService jwtTokenService;
 
-  @Override //TODO: test
+  @Override
   public StudentListDTO getAll() {
     List<StudentDTO> studentDTOS = studentRepository.findAll().stream()
         .map(this::convertToStudentDTO)
@@ -47,13 +47,13 @@ public class StudentServiceImpl implements StudentService {
   }
 
   @Override
-  public StudentDTO addStudent(StudentDTO studentDTO) throws AlreadyTakenException { //TODO: test
+  public StudentDTO addStudent(StudentDTO studentDTO) throws AlreadyTakenException {
     isExistingEmail(studentDTO.getEmail());
     Student student = studentRepository.save(convertToStudent(studentDTO));
     return convertToStudentDTO(student);
   }
 
-  @Override //TODO: test
+  @Override
   public boolean isExistingEmail(String email) throws AlreadyTakenException {
     if (studentRepository.findByEmail(email).isPresent()) {
       throw new AlreadyTakenException("Email address is already in use.");
@@ -61,7 +61,7 @@ public class StudentServiceImpl implements StudentService {
     return false;
   }
 
-  @Override //TODO: test
+  @Override
   public StudentDTO updateStudentData(String id,
                                       StudentDTO studentDTO) throws StudentNotFoundException, AlreadyTakenException {
     Student student = getById(id);
@@ -71,7 +71,7 @@ public class StudentServiceImpl implements StudentService {
     return convertToStudentDTO(studentRepository.save(student));
   }
 
-  @Override //TODO: test
+  @Override
   public Student deleteStudent(String id) throws StudentNotFoundException {
     Student student = getById(id);
     studentRepository.delete(student);
@@ -79,7 +79,7 @@ public class StudentServiceImpl implements StudentService {
   }
 
   @Override
-  public AddressResponseDTO getAddressById(String id) { //TODO: test
+  public AddressResponseDTO getAddressById(String id) {
     String jwtToken = jwtTokenService.createJwtToken(jwtTokenService.createDefaultClaims());
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON);

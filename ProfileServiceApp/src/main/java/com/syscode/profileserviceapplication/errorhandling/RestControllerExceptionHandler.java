@@ -9,6 +9,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.client.ResourceAccessException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 public class RestControllerExceptionHandler {
 
-  private final List<String> commonErrorCodes = new ArrayList<String>() {{
+  private final List<String> commonErrorCodes = new ArrayList<>() {{
     add("NotBlank");
   }};
 
@@ -49,6 +50,11 @@ public class RestControllerExceptionHandler {
   @ExceptionHandler(StudentNotFoundException.class)
   public ResponseEntity<ErrorMessage> handleStudentNotFound() {
     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorMessage(StudentNotFoundException.MESSAGE));
+  }
+
+  @ExceptionHandler(ResourceAccessException.class)
+  public ResponseEntity<ErrorMessage> handleResourceAccess(ResourceAccessException e) {
+    return ResponseEntity.status(HttpStatus.GATEWAY_TIMEOUT).body(new ErrorMessage(e.getMessage()));
   }
 
   public String getMissingFieldsMessage(List<FieldError> fieldErrors) {
