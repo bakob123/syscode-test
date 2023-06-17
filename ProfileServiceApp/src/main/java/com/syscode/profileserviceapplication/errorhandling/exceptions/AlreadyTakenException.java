@@ -1,0 +1,9 @@
+package com.syscode.profileserviceapplication.errorhandling.exceptions;
+
+public class AlreadyTakenException extends RuntimeException {
+
+  public AlreadyTakenException(String message) {
+    super(message);
+  }
+
+}
