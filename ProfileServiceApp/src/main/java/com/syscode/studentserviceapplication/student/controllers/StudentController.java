@@ -29,7 +29,7 @@ public class StudentController {
   public ResponseEntity<StudentListDTO> getAllStudents() { //TODO: test
     logger.info(requestBaseMessage + "retrieve all students.");
     StudentListDTO studentListDTO = studentService.getAll();
-    logger.info("Returned {} students.", studentListDTO.getStudents().size());
+    logger.info("Returning {} students.", studentListDTO.getStudents().size());
     return ResponseEntity.status(HttpStatus.OK).body(studentListDTO);
   }
 
