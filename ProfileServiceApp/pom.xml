@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.syscode</groupId>
-	<artifactId>StudentServiceApplication</artifactId>
+	<artifactId>ProfileServiceApp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Syscode microservice project</name>
 	<description>Syscode microservice project</description>
