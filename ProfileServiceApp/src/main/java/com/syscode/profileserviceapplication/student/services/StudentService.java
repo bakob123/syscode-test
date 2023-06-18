@@ -21,4 +21,5 @@ public interface StudentService {
   Student deleteStudent(String id) throws StudentNotFoundException;
 
   AddressResponseDTO getAddressById(String id);
+
 }
