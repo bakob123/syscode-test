@@ -1,3 +1,5 @@
 databaseChangeLog:
   - include:
       file: classpath:/db/changelog/changes/V1_0_0_Create_students_table.sql
+  - include:
+      file: classpath:/db/changelog/changes/V1_0_1_Add_default_data.sql
