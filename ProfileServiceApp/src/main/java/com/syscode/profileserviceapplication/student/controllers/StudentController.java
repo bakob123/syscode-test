@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +27,7 @@ public class StudentController {
   private StudentService studentService;
 
   @GetMapping
-  public ResponseEntity<StudentListDTO> getAllStudents() { //TODO: test
+  public ResponseEntity<StudentListDTO> getAllStudents() {
     logger.info(requestBaseMessage + "retrieve all students.");
     StudentListDTO studentListDTO = studentService.getAll();
     logger.info("Returning {} students.", studentListDTO.getStudents().size());
@@ -34,7 +35,7 @@ public class StudentController {
   }
 
   @PostMapping
-  public ResponseEntity<StudentDTO> createStudent(@RequestBody @Valid StudentDTO studentDTO) { //TODO: test
+  public ResponseEntity<StudentDTO> createStudent(@RequestBody @Valid StudentDTO studentDTO) {
     logger.info
         (
             requestBaseMessage + "create student: name={}, email={}", studentDTO.getName(), studentDTO.getEmail()
@@ -45,7 +46,7 @@ public class StudentController {
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<StudentDTO> updateStudent(@PathVariable String id, @RequestBody @Valid StudentDTO studentDTO) { //TODO: test
+  public ResponseEntity<StudentDTO> updateStudent(@PathVariable String id, @RequestBody @Valid StudentDTO studentDTO) {
     logger.info
         (
             requestBaseMessage + "update id={} student with new_name={}, new_email={}.",
@@ -59,14 +60,14 @@ public class StudentController {
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity deleteStudent(@PathVariable String id) { //TODO: test
+  public ResponseEntity<?> deleteStudent(@PathVariable String id) {
     logger.info(requestBaseMessage + "delete student with id={}", id);
     studentService.deleteStudent(id);
     logger.info("Deleted student with id={}", id);
-    return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    return ResponseEntity.status(HttpStatus.NO_CONTENT).contentType(MediaType.APPLICATION_JSON).build();
   }
 
-  @GetMapping("/addresses/{id}") //TODO: test
+  @GetMapping("/addresses/{id}")
   public ResponseEntity<AddressResponseDTO> getAddress(@PathVariable String id) {
     logger.info(requestBaseMessage + "get address for student with id={}", id);
     logger.info("Sending request to {} ", addressServiceBaseUrl + "/" + id);

@@ -22,7 +22,7 @@ public class AddressController {
   private JwtTokenService jwtTokenService;
 
 
-  @GetMapping("/{studentId}") //TODO: test
+  @GetMapping("/{studentId}")
   public ResponseEntity<Address> getAddress(@PathVariable String studentId,
                                             @RequestHeader("Authorization") String authorization) {
     logger.info(requestBaseMessage + "return address for student with id={}", studentId);
