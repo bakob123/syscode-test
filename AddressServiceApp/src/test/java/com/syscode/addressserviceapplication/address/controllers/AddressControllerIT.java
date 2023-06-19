@@ -34,7 +34,7 @@ class AddressControllerIT {
 
   @Test
   public void getAddress_should_returnStatus400_when_authHeaderIsInvalidFormat() throws Exception {
-    mockMvc.perform(get("/api/address/1234567")
+    mockMvc.perform(get("/api/addresses/1234567")
             .header("Authorization", "invalid"))
         .andExpect(content().contentTypeCompatibleWith(contentType))
         .andExpect(status().isBadRequest())
@@ -45,7 +45,7 @@ class AddressControllerIT {
   @Test
   public void getAddress_should_returnCorrectAddress() throws Exception {
     UUID uuid = UUID.randomUUID();
-    mockMvc.perform(get("/api/address/" + uuid)
+    mockMvc.perform(get("/api/addresses/" + uuid)
             .header("Authorization", "Bearer " + token))
         .andExpect(content().contentTypeCompatibleWith(contentType))
         .andExpect(status().isOk())

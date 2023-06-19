@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  address-service:
+    build:
+      context: .
+      dockerfile: Dockerfile-addressservice
+    ports:
+      - 8100:8100
+    network_mode: bridge
+
+  profile-service:
+    build:
+      context: .
+      dockerfile: Dockerfile-profileservice
+    ports:
+      - 8080:8080
+    network_mode: bridge
+    environment:
+      - ADDRESS_SERVICE_URL=http://address-service:8100/api/address

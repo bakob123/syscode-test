@@ -1,0 +1,6 @@
+FROM openjdk:11
+ARG ADDRESS_SERVICE_URL
+ENV ADDRESS_SERVICE_URL http://address-service:8100/api/address
+WORKDIR /app
+COPY ./ProfileServiceApp/target/ProfileServiceApp-0.0.1-SNAPSHOT.jar ./app.jar
+ENTRYPOINT ["java", "-jar", "app.jar"]
