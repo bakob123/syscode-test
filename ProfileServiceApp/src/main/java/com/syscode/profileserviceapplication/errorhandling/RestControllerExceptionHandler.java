@@ -1,5 +1,7 @@
 package com.syscode.profileserviceapplication.errorhandling;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.syscode.profileserviceapplication.errorhandling.exceptions.AlreadyTakenException;
 import com.syscode.profileserviceapplication.errorhandling.exceptions.StudentNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -9,6 +11,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.ResourceAccessException;
 
 import java.util.ArrayList;
@@ -55,6 +58,14 @@ public class RestControllerExceptionHandler {
   @ExceptionHandler(ResourceAccessException.class)
   public ResponseEntity<ErrorMessage> handleResourceAccess(ResourceAccessException e) {
     return ResponseEntity.status(HttpStatus.GATEWAY_TIMEOUT).body(new ErrorMessage(e.getMessage()));
+  }
+
+  @ExceptionHandler(HttpClientErrorException.class)
+  public ResponseEntity<ErrorMessage> handleHttpClientError(HttpClientErrorException e)
+      throws JsonProcessingException {
+    ObjectMapper mapper = new ObjectMapper();
+    ErrorMessage message = mapper.readValue(e.getMessage().substring(7), ErrorMessage.class);
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
   }
 
   public String getMissingFieldsMessage(List<FieldError> fieldErrors) {

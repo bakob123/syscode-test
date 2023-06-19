@@ -14,8 +14,8 @@ public class Address {
     this.id = UUID.randomUUID();
   }
 
-  public Address(String id, String address) {
-    this.id = UUID.fromString(id);
+  public Address(UUID id, String address) {
+    this.id = id;
     this.address = address;
   }
 

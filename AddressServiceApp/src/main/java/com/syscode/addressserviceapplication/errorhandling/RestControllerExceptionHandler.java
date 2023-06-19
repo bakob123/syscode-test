@@ -1,6 +1,7 @@
 package com.syscode.addressserviceapplication.errorhandling;
 
 import com.syscode.addressserviceapplication.errorhandling.exceptions.InvalidAuthHeaderException;
+import com.syscode.addressserviceapplication.errorhandling.exceptions.InvalidUuidFormatException;
 import io.jsonwebtoken.JwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,12 @@ public class RestControllerExceptionHandler {
   @ExceptionHandler(MissingRequestHeaderException.class)
   public ResponseEntity<ErrorMessage> handleMissingRequestHeaders(MissingRequestHeaderException e) {
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorMessage(e.getMessage()));
+  }
+
+  @ExceptionHandler(InvalidUuidFormatException.class)
+  public ResponseEntity<ErrorMessage> handleInvalidUuid() {
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        .body(new ErrorMessage(InvalidUuidFormatException.MESSAGE));
   }
 
 }
