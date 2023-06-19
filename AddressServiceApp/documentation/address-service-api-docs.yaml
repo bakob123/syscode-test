@@ -1,0 +1,41 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+- url: http://localhost:8100
+  description: Generated server url
+paths:
+  /api/addresses/{studentId}:
+    get:
+      tags:
+      - address-controller
+      operationId: getAddress
+      parameters:
+      - name: studentId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Address'
+components:
+  schemas:
+    Address:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        address:
+          type: string

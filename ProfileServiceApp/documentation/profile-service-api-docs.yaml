@@ -1,0 +1,126 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+- url: http://localhost:8080
+  description: Generated server url
+paths:
+  /api/students/{id}:
+    put:
+      tags:
+      - student-controller
+      operationId: updateStudent
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StudentDTO'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/StudentDTO'
+    delete:
+      tags:
+      - student-controller
+      operationId: deleteStudent
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+  /api/students:
+    get:
+      tags:
+      - student-controller
+      operationId: getAllStudents
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/StudentListDTO'
+    post:
+      tags:
+      - student-controller
+      operationId: createStudent
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StudentDTO'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/StudentDTO'
+  /api/students/addresses/{id}:
+    get:
+      tags:
+      - student-controller
+      operationId: getAddress
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AddressResponseDTO'
+components:
+  schemas:
+    StudentDTO:
+      required:
+      - email
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        email:
+          type: string
+    StudentListDTO:
+      type: object
+      properties:
+        students:
+          type: array
+          items:
+            $ref: '#/components/schemas/StudentDTO'
+    AddressResponseDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        address:
+          type: string
